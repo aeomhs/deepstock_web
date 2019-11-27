@@ -121,7 +121,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # TODO 한국으로 변경
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
