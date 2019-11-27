@@ -1,7 +1,28 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-# Create your views here.
 def index(request):
     print("request index page")
     return render(request, 'demo/index.html')
+
+# TODO 웹 방문 첫 페이지 구현
+# 요소 : 간단한 intro
+# 기능 1 다음 페이지 이동 (stock_list.html)
+def welcome(request):
+    return render(request, 'demo/welcome.html')
+
+# TODO 종목 리스트 페이지 구현
+# 요소 : 설명, 코스피 표, 코스닥 표
+# 기능 1 코스피 , 코스닥 각 30 종목씩 리스트업
+# 기능 2 종목 선택시 다음 페이지 이동 (stock_analysis.html)
+# 기능 3 이전 페이지 이동
+def stock_list(request):
+    return render(request, 'demo/stock_list.html')
+
+# TODO 종목 분석 페이지 구현
+# 요소 : 그래프, 설명, 관련 뉴스
+# 기능 1 종목의 주가 예측 그래프 제공
+# 기능 2 종목 관련 뉴스 제공
+# 기능 3 이전 페이지 이동
+def stock_analysis(request):
+    return render(request, 'demo/stock_analysis.html')

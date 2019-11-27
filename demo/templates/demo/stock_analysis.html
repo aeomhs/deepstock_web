@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+{% load static %}
+  <head>
+    <meta charset="utf-8">
+    <title>Deep Stock</title>
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap&subset=korean" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/stock_analysis.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+  </head>
+  <body>
+    <header>
+
+    </header>
+    <main role="main" class="container">
+      <div class="stock_analysis">
+        <canvas id="stock_analysis_chart" width="300" height="300">
+        </canvas>
+      </div>
+      <div class="relevant_news_list">
+
+      </div>
+    </main>
+    <footer>
+
+    </footer>
+  </body>
+</html>

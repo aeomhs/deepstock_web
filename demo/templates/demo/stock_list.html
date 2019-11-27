@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+{% load static %}
+  <head>
+    <meta charset="utf-8">
+    <title>Deep Stock</title>
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap&subset=korean" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/stock_list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+  </head>
+  <body>
+    <header>
+
+    </header>
+    <main role="main" class="container">
+      <div class="stock_list">
+        <div class="stock_container">
+          <ul>
+            <li>코스피 종목 1</li>
+            <li>코스피 종목 2</li>
+            <li>코스피 종목 3</li>
+          </ul>
+          <p>코스피 종목 리스트입니다.</p>
+        </div>
+        <div class="stock_container">
+          <ul>
+            <li>코스닥 종목 1</li>
+            <li>코스닥 종목 2</li>
+            <li>코스닥 종목 3</li>
+          </ul>
+          <p>코스닥 종목 리스트입니다.</p>
+        </div>
+      </div>
+      <div class="description">
+        원하는 종목을 선택해주세요.
+      </div>
+    </main>
+    <footer>
+
+    </footer>
+  </body>
+</html>
