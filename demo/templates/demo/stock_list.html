@@ -17,22 +17,40 @@
     </header>
     <main role="main" class="container">
       <div class="stock_list">
+        {% if stock_list %}
         <div class="stock_container">
           <ul>
-            <li>코스피 종목 1</li>
-            <li>코스피 종목 2</li>
-            <li>코스피 종목 3</li>
+            {% for kospi_company in stock_list.kospi_list %}
+            <li>
+              <span class="company_name">
+                {{kospi_company.name}}
+              </span>
+              <span class="company_price">
+                {{kospi_company.price}}
+              </span>
+            </li>
+            {% endfor %}
           </ul>
           <p>코스피 종목 리스트입니다.</p>
         </div>
         <div class="stock_container">
           <ul>
-            <li>코스닥 종목 1</li>
-            <li>코스닥 종목 2</li>
-            <li>코스닥 종목 3</li>
+            {% for kosdaq_company in stock_list.kosdaq_list %}
+            <li>
+              <span class="company_name">
+                {{kosdaq_company.name}}
+              </span>
+              <span class="company_price">
+                {{kosdaq_company.price}}
+              </span>
+            </li>
+            {% endfor %}
           </ul>
           <p>코스닥 종목 리스트입니다.</p>
         </div>
+        {% else %}
+          <p>No List</p>
+        {% endif %}
       </div>
       <div class="description">
         원하는 종목을 선택해주세요.

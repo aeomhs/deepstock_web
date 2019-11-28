@@ -7,6 +7,16 @@
   height:140px;
 }
 
+.banner{
+  height: 25rem;
+  width: 100%;
+}
+
 .intro{
   height:100px;
+}
+
+body{
+  margin-left: 0px;
+  margin-right: 0px;
 }

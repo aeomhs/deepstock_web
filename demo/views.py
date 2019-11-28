@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import Company
 
 def index(request):
     print("request index page")
@@ -17,7 +17,13 @@ def welcome(request):
 # 기능 2 종목 선택시 다음 페이지 이동 (stock_analysis.html)
 # 기능 3 이전 페이지 이동
 def stock_list(request):
-    return render(request, 'demo/stock_list.html')
+    kospi_list = Company.kospi_companies.all()
+    kosdaq_list = Company.kosdaq_companies.all()
+    stock_list = {
+        'kospi_list' : kospi_list,
+        'kosdaq_list' : kosdaq_list,
+    }
+    return render(request, 'demo/stock_list.html', {'stock_list':stock_list})
 
 # TODO 종목 분석 페이지 구현
 # 요소 : 그래프, 설명, 관련 뉴스
