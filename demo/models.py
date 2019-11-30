@@ -34,14 +34,60 @@ class Company(models.Model):
         return self.name
 
 class CompanyPriceManager(models.Manager):
-    def get_queryset(self, _company):
-        return super().get_queryset().filter(company=_company)
+    def get_kospi_stock_list(self):
+        from django.db import connection
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT c.name, c.code, p.price
+                FROM demo_company c, demo_price p
+                WHERE c.id = p.company_id AND
+                      p.date = (
+                          SELECT MAX(p2.date)
+                          FROM demo_price p2
+                          WHERE p.company_id = p2.company_id
+                          GROUP BY p2.company_id
+                      ) AND
+                      c.market_type = 'KP'
+                """)
+            result_list = []
+            for row in cursor.fetchall():
+                p = self.model(id=row[0], name=row[0], code=row[1], price=row[2])
+                result_list.append(p)
+        return result_list
+
+    def get_kosdaq_stock_list(self):
+        from django.db import connection
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT c.name, c.code, p.price
+                FROM demo_company c, demo_price p
+                WHERE c.id = p.company_id AND
+                      p.date = (
+                          SELECT MAX(p2.date)
+                          FROM demo_price p2
+                          WHERE p.company_id = p2.company_id
+                          GROUP BY p2.company_id
+                      ) AND
+                      c.market_type = 'KD'
+                """)
+            result_list = []
+            for row in cursor.fetchall():
+                p = self.model(id=row[0], name=row[0], code=row[1], price=row[2])
+                result_list.append(p)
+        return result_list
+
+class CompanyPrice(models.Model):
+    name = models.CharField(max_length=30)
+    code = models.CharField(max_length=6)
+    price = models.IntegerField()
+    
+    objects = CompanyPriceManager()
 
 class Price(models.Model):
     company = models.ForeignKey(
         Company,
         on_delete=models.CASCADE,
-        verbose_name='종목명',
+        verbose_name='종목',
     )
 
     date = models.DateField(
@@ -53,14 +99,13 @@ class Price(models.Model):
     )
     
     objects = models.Manager()
-    company_price = CompanyPriceManager()
-
+    
     class Meta:
         verbose_name='주가'
         verbose_name_plural='날짜별 주가'
         # 날짜별 각 종목의 시가는 단 하나의 칼럼으로 이루어진다.
         unique_together=(('company', 'date'),)
-        ordering=['company']
+        ordering=['-date']
         
     def __str__(self):
         return "["+self.company.__str__()+"]"+self.date.strftime('%Y/%m/%d')
