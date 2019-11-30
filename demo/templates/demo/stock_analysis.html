@@ -2,21 +2,25 @@
 <html lang="ko" dir="ltr">
 {% load static %}
   <head>
-    <meta charset="utf-8">
     <title>Deep Stock</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}" media="screen, projection">
     <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap&subset=korean" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/stock_analysis.css' %}">
     <link rel="stylesheet" href="{% static 'css/header.css' %}">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
   </head>
   <body>
     <header>
-      <a href="/demo/welcome">home</a>
-      <a href="/demo/stock_list">stock_list</a>
+      <a href="/">home</a>
+      <a href="/stock_list/">stock_list</a>
     </header>
     <main role="main" class="container">
       <div class="stock_analysis">
+        {% if stock_code %}
+        <p>{{stock_code}}</p>
+        {% endif %}
         <canvas id="stock_analysis_chart" width="300" height="300">
         </canvas>
       </div>
@@ -27,5 +31,7 @@
     <footer>
 
     </footer>
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
   </body>
 </html>

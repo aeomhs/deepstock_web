@@ -2,18 +2,18 @@
 <html lang="ko" dir="ltr">
 {% load static %}
   <head>
-    <meta charset="utf-8">
     <title>Deep Stock</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}" media="screen, projection">
     <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap&subset=korean" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/stock_list.css' %}">
     <link rel="stylesheet" href="{% static 'css/header.css' %}">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
   </head>
   <body>
     <header>
-      <a href="/demo/welcome">home</a>
-      <a href="/demo/stock_analysis">stock_analysis</a>
+      <a href="/">home</a>
     </header>
     <main role="main" class="container">
       <div class="stock_list">
@@ -21,13 +21,11 @@
         <div class="stock_container">
           <ul>
             {% for kospi_company in stock_list.kospi_list %}
-            <li>
-              <span class="company_name">
+            <li class="listitem">
+              <a class="stock_item" href="/stock_analysis/{{kospi_company.code}}/">
                 {{kospi_company.name}}
-              </span>
-              <span class="company_price">
                 {{kospi_company.price}}
-              </span>
+              </a>
             </li>
             {% endfor %}
           </ul>
@@ -36,13 +34,11 @@
         <div class="stock_container">
           <ul>
             {% for kosdaq_company in stock_list.kosdaq_list %}
-            <li>
-              <span class="company_name">
+            <li class="listitem">
+              <a class="stock_item" href="/stock_analysis/{{kosdaq_company.code}}/">
                 {{kosdaq_company.name}}
-              </span>
-              <span class="company_price">
                 {{kosdaq_company.price}}
-              </span>
+              </a>
             </li>
             {% endfor %}
           </ul>
@@ -58,7 +54,8 @@
       </div>
     </main>
     <footer>
-
     </footer>
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
   </body>
 </html>
