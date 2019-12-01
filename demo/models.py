@@ -1,4 +1,6 @@
+import json
 from django.db import models
+from django.utils import timezone
 
 class KospiCompanyManager(models.Manager):
     def get_queryset(self):
@@ -109,3 +111,54 @@ class Price(models.Model):
         
     def __str__(self):
         return "["+self.company.__str__()+"]"+self.date.strftime('%Y/%m/%d')
+
+
+# https://medium.com/@ali_oguzhan/how-to-use-scrapy-with-django-application-c16fabd0e62e
+class ScrapyItem(models.Model):
+    unique_id = models.CharField(max_length=100, null=True)
+    data = models.TextField() # this stands for our crawled data
+    date = models.DateTimeField(default=timezone.now)
+    
+    # This is for basic and custom serialisation to return it to client as a JSON.
+    @property
+    def to_dict(self):
+        data = {
+            'data': json.loads(self.data),
+            'date': self.date
+        }
+        return data
+
+    def __str__(self):
+        return self.unique_id
+
+
+# class NewsItem(models.Model):
+#     stock_code = models.CharField(
+#         verbose_name='종목',
+#         max_length=6,
+#     )
+#     title = models.TextField(
+#         verbose_name='기사제목',
+#     )
+#     url = models.TextField(
+#         verbose_name='링크',
+#     )
+#     site = models.CharField(
+#         verbose_name='정보제공',
+#         max_length=20,
+#     )
+#     date = models.DateField(
+#         verbose_name='날짜',
+#     )
+
+#     # This is for basic and custom serialisation to return it to client as a JSON.
+#     @property
+#     def to_dict(self):
+#         data = {
+#             'data': json.loads(self.data),
+#             'date': self.date
+#         }
+#         return data
+
+#     def __str__(self):
+#         return "["+self.site.__str__()+"]"+self.title.__str__()

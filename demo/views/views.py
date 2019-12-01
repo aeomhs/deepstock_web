@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Company, Price, CompanyPrice
+from ..models import Company, Price, CompanyPrice
 
 
 # TODO 웹 방문 첫 페이지 구현
