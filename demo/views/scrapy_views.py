@@ -81,8 +81,11 @@ def crawl(request):
         if status == 'finished':
             try:
                 # this is the unique_id that we created even before crawling started.
-                item = ScrapyItem.objects.get(unique_id=unique_id) 
-                return JsonResponse({'data': item.to_dict['data']})
+                items = ScrapyItem.objects.filter(unique_id=unique_id)
+                
+                return JsonResponse({
+                    'data': list(items.values())
+                })
             except Exception as e:
                 return JsonResponse({'error': str(e)})
         else:

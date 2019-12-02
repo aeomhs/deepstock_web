@@ -116,49 +116,23 @@ class Price(models.Model):
 # https://medium.com/@ali_oguzhan/how-to-use-scrapy-with-django-application-c16fabd0e62e
 class ScrapyItem(models.Model):
     unique_id = models.CharField(max_length=100, null=True)
-    data = models.TextField() # this stands for our crawled data
-    date = models.DateTimeField(default=timezone.now)
     
-    # This is for basic and custom serialisation to return it to client as a JSON.
+    title = models.TextField(verbose_name='제목', default='기사 제목', null=True)
+    url = models.TextField(verbose_name='링크', default='기사 링크', null=True)
+    info = models.TextField(verbose_name='사이트', default='기사 사이트', null=True)
+    date = models.TextField(verbose_name='날짜', default='기사 날짜', null=True)
+
+    # 사용안하고 있음, 현재 objects.filter().values() -> list로 변경하여 JsonrResponse 사용
+    # Link : demo/views/scrapy_views.py
     @property
     def to_dict(self):
         data = {
-            'data': json.loads(self.data),
-            'date': self.date
+            'title': json.loads(self.title),
+            'url'  : json.loads(self.url),
+            'info' : json.loads(self.info),
+            'date' : json.loads(self.date),
         }
         return data
 
     def __str__(self):
         return self.unique_id
-
-
-# class NewsItem(models.Model):
-#     stock_code = models.CharField(
-#         verbose_name='종목',
-#         max_length=6,
-#     )
-#     title = models.TextField(
-#         verbose_name='기사제목',
-#     )
-#     url = models.TextField(
-#         verbose_name='링크',
-#     )
-#     site = models.CharField(
-#         verbose_name='정보제공',
-#         max_length=20,
-#     )
-#     date = models.DateField(
-#         verbose_name='날짜',
-#     )
-
-#     # This is for basic and custom serialisation to return it to client as a JSON.
-#     @property
-#     def to_dict(self):
-#         data = {
-#             'data': json.loads(self.data),
-#             'date': self.date
-#         }
-#         return data
-
-#     def __str__(self):
-#         return "["+self.site.__str__()+"]"+self.title.__str__()

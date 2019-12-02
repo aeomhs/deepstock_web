@@ -9,6 +9,12 @@
 from demo.models import ScrapyItem
 import json
 
+'''
+ ISSUE 현재 각 뉴스 하나를 object 단위로 저장하기 때문에, db 상당 수 저장된다. 데이터 관리가 어렵다.
+ 방법 1. 크롤링할때마다 관련 db를 초기화한다.
+ 방법 2. save하기 전, 뉴스 제목으로 검색하여 있으면 저장을 생략한다.
+ 방법 3. 날짜별로 크롤링을 진행하여 저장한다.
+'''
 class ScrapyAppPipeline(object):
     def __init__(self, unique_id, *args, **kwargs):
         self.unique_id = unique_id
@@ -22,11 +28,16 @@ class ScrapyAppPipeline(object):
 
     def close_spider(self, spider):
         # And here we are saving our crawled data with django models.
-        item = ScrapyItem()
-        item.unique_id = self.unique_id
-        item.data = json.dumps(self.items)
-        item.save()
+        for i in self.items:
+            item = ScrapyItem()
+            item.unique_id = self.unique_id
+            item.title = i['title']
+            item.url = i['url']
+            item.info = i['info']
+            item.date = i['date']
+            item.save()
 
     def process_item(self, item, spider):
-        self.items.append(item['url'])
+        self.items.append(item)
+
         return item

@@ -3,17 +3,14 @@ import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 
-
+'''
+ TODO stock_code에 따라 다른 뉴스 크롤링
+ ISSUE 파싱을 특정 사이트 기준으로 진행하기때문에, 다른 사이트 url 혹은 사이트 태그 달라지면 에러 발생
+'''
 class NewsbotSpider(CrawlSpider):
     name = 'newsbot'
     
-    # Default Setting
-    # allowed_domains = ['https://google.com']
-    # start_urls = ['http://https://google.com/']
-
-    # rules = (
-    #     Rule(LinkExtractor(allow=r'Items/'), callback='parse_item', follow=True),
-    # )
+    base_url = 'https://finance.naver.com'
 
     def __init__(self, *args, **kwargs):
         # We are going to pass these args from our django view.
@@ -31,16 +28,21 @@ class NewsbotSpider(CrawlSpider):
     def parse_item(self, response):
         # You can tweak each crawled page here
         # Don't forget to return an object.
-        i = {}
-        i['url'] = response.url
-        return i
-
-    # Default Setting
-    # def parse_item(self, response):
-    #     item = {}
-    #     #item['domain_id'] = response.xpath('//input[@id="sid"]/@value').get()
-    #     #item['name'] = response.xpath('//div[@id="name"]').get()
-    #     #item['description'] = response.xpath('//div[@id="description"]').get()
-    #     return item
+        titles = response.xpath('//*[@class="title"]/a/text()').extract()
+        urls = response.xpath('//*[@class="title"]/a/@href').extract()
+        infos = response.xpath('//*[@class="info"]/text()').extract()
+        dates = response.xpath('//*[@class="date"]/text()').extract()
+        
+        for item in zip(titles, urls, infos, dates):
+            scraped_info = {
+                'title' : item[0].strip(),
+                'url' : self.base_url + item[1].strip(),
+                'info' : item[2].strip(),
+                'date' : item[3].strip(),
+            }
+            print('result : ', scraped_info)
+            yield scraped_info
+        
+        return {'titles':titles, 'urls':urls, 'infos':infos, 'dates':dates}
 
     
