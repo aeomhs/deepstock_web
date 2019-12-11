@@ -18,45 +18,63 @@ scrapyd = ScrapydAPI('http://localhost:6800')
 def is_valid_url(url):
     validate = URLValidator()
     try:
-        validate(url) # check if url format is valid
+        # check if url format is valid
+        validate(url)
     except ValidationError:
         return False
 
     return True
 
 
+def is_valid_type(task_type):
+    if task_type == 'news':
+        return True
+    elif task_type == 'stockbot':
+        return True
+    return False
+
+
 @csrf_exempt
-@require_http_methods(['POST', 'GET']) # only get and post
+@require_http_methods(['POST', 'GET'])
 def crawl(request):
     # Post requests are for new crawling tasks
     if request.method == 'POST':
 
         url = request.POST.get('url', None) # take url comes from client. (From an input may be?)
+        # news, stock_list
+        task_type = request.POST.get('task_type', None)
 
-        if not url:
+        if (not url) or (not task_type):
             return JsonResponse({'error': 'Missing  args'})
-        
+
         if not is_valid_url(url):
             return JsonResponse({'error': 'URL is invalid'})
-        
+
+        if not is_valid_type(task_type):
+            return JsonResponse({'error': 'Task type is invalid'})
+
         domain = urlparse(url).netloc # parse the url and extract the domain
-        unique_id = str(uuid4()) # create a unique ID. 
-        
-        # This is the custom settings for scrapy spider. 
-        # We can send anything we want to use it inside spiders and pipelines. 
+        unique_id = str(uuid4()) # create a unique ID.
+
+        # This is the custom settings for scrapy spider.
+        # We can send anything we want to use it inside spiders and pipelines.
         # I mean, anything
         settings = {
             'unique_id': unique_id, # unique ID for each record for DB
-            'USER_AGENT': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
+            'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
         }
 
-        # Here we schedule a new crawling task from scrapyd. 
-        # Notice that settings is a special argument name. 
+        # Here we schedule a new crawling task from scrapyd.
+        # Notice that settings is a special argument name.
         # But we can pass other arguments, though.
         # This returns a ID which belongs and will be belong to this task
         # We are goint to use that to check task's status.
-        task = scrapyd.schedule('default', 'newsbot', 
-            settings=settings, url=url, domain=domain)
+        if task_type == 'news':
+            task = scrapyd.schedule('default', 'newsbot',
+                settings=settings, url=url, domain=domain)
+        elif task_type == 'stockbot':
+            task = scrapyd.schedule('default', 'stockbot',
+                settings=settings, url=url, domain=domain)
 
         return JsonResponse({'task_id': task, 'unique_id': unique_id, 'status': 'started' })
 
@@ -82,7 +100,7 @@ def crawl(request):
             try:
                 # this is the unique_id that we created even before crawling started.
                 items = ScrapyItem.objects.filter(unique_id=unique_id)
-                
+
                 return JsonResponse({
                     'data': list(items.values())
                 })

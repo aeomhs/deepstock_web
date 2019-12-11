@@ -3,6 +3,7 @@ import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 
+
 '''
  TODO stock_code에 따라 다른 뉴스 크롤링
  ISSUE 파싱을 특정 사이트 기준으로 진행하기때문에, 다른 사이트 url 혹은 사이트 태그 달라지면 에러 발생
@@ -35,14 +36,12 @@ class NewsbotSpider(CrawlSpider):
         
         for item in zip(titles, urls, infos, dates):
             scraped_info = {
-                'title' : item[0].strip(),
-                'url' : self.base_url + item[1].strip(),
-                'info' : item[2].strip(),
-                'date' : item[3].strip(),
+                'title': item[0].strip(),
+                'url': self.base_url + item[1].strip(),
+                'info': item[2].strip(),
+                'date': item[3].strip(),
             }
             print('result : ', scraped_info)
             yield scraped_info
         
-        return {'titles':titles, 'urls':urls, 'infos':infos, 'dates':dates}
-
-    
+        return {'titles': titles, 'urls': urls, 'infos': infos, 'dates': dates}
