@@ -2,7 +2,7 @@
 *~
 __pycache__
 myvenv
-
+.python-version
 db.sqlite3
 /static
 
@@ -13,3 +13,7 @@ db.sqlite3
 
 
 */practice/
+
+*/*.db
+
+*.json

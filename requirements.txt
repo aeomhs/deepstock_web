@@ -1,0 +1,5 @@
+Python===3.6.8
+Django===2.2.7
+Scrapy===1.8.0
+scrapyd===1.2.1
+python-scrapyd-api===2.1.2
