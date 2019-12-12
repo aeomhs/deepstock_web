@@ -41,7 +41,6 @@ class NewsbotSpider(CrawlSpider):
                 'info': item[2].strip(),
                 'date': item[3].strip(),
             }
-            print('result : ', scraped_info)
             yield scraped_info
         
         return {'titles': titles, 'urls': urls, 'infos': infos, 'dates': dates}

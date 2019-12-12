@@ -1,5 +1,3 @@
-
-# TODO Naver News Finance Stock_code Crawling 
 from uuid import uuid4
 from urllib.parse import urlparse
 from django.core.validators import URLValidator
@@ -25,15 +23,6 @@ def is_valid_url(url):
 
     return True
 
-
-def is_valid_type(task_type):
-    if task_type == 'news':
-        return True
-    elif task_type == 'stockbot':
-        return True
-    return False
-
-
 @csrf_exempt
 @require_http_methods(['POST', 'GET'])
 def crawl(request):
@@ -41,17 +30,12 @@ def crawl(request):
     if request.method == 'POST':
 
         url = request.POST.get('url', None) # take url comes from client. (From an input may be?)
-        # news, stock_list
-        task_type = request.POST.get('task_type', None)
 
-        if (not url) or (not task_type):
+        if not url:
             return JsonResponse({'error': 'Missing  args'})
 
         if not is_valid_url(url):
             return JsonResponse({'error': 'URL is invalid'})
-
-        if not is_valid_type(task_type):
-            return JsonResponse({'error': 'Task type is invalid'})
 
         domain = urlparse(url).netloc # parse the url and extract the domain
         unique_id = str(uuid4()) # create a unique ID.
@@ -61,7 +45,7 @@ def crawl(request):
         # I mean, anything
         settings = {
             'unique_id': unique_id, # unique ID for each record for DB
-            'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
+            'USER_AGENT': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
         }
 
         # Here we schedule a new crawling task from scrapyd.
@@ -69,11 +53,8 @@ def crawl(request):
         # But we can pass other arguments, though.
         # This returns a ID which belongs and will be belong to this task
         # We are goint to use that to check task's status.
-        if task_type == 'news':
-            task = scrapyd.schedule('default', 'newsbot',
-                settings=settings, url=url, domain=domain)
-        elif task_type == 'stockbot':
-            task = scrapyd.schedule('default', 'stockbot',
+
+        task = scrapyd.schedule('default', 'newsbot',
                 settings=settings, url=url, domain=domain)
 
         return JsonResponse({'task_id': task, 'unique_id': unique_id, 'status': 'started' })
@@ -108,3 +89,34 @@ def crawl(request):
                 return JsonResponse({'error': str(e)})
         else:
             return JsonResponse({'status': status})
+
+
+def is_valid_secure(secure):
+    if secure == 'DEEPSTOCK_SECURE':
+        return True
+    return False
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def stock_init(request):
+    if request.method == 'POST':
+        # Secure Check
+        secure = request.POST.get('secure', None)
+
+        if not secure:
+            return JsonResponse({'ERROR': 'No Secure Access'})
+        if not is_valid_secure(secure):
+            return JsonResponse({'ERROR': 'Wrong Secure Token'})
+
+        unique_id = str(uuid4())  # create a unique ID.
+
+        settings = {
+            'unique_id': unique_id,  # unique ID for each record for DB
+            'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
+        }
+
+        task = scrapyd.schedule('default', 'stockbot',
+                                    settings=settings)
+
+        return JsonResponse({'task_id': task, 'unique_id': unique_id, 'status': 'started'})

@@ -2,7 +2,7 @@
 *~
 __pycache__
 myvenv
-
+.python-version
 db.sqlite3
 /static
 
