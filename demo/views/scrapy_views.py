@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from scrapyd_api import ScrapydAPI
-from ..models import ScrapyItem
+from ..models import ScrapyItem, Company
 
 # connect scrapyd service
 scrapyd = ScrapydAPI('http://localhost:6800')
@@ -23,21 +23,29 @@ def is_valid_url(url):
 
     return True
 
+
+def is_valid_stock_code(code):
+    try:
+        Company.objects.get(code=code)
+        return True
+    except Company.DoesNotExist:
+        return False
+
+
 @csrf_exempt
 @require_http_methods(['POST', 'GET'])
 def crawl(request):
     # Post requests are for new crawling tasks
     if request.method == 'POST':
 
-        url = request.POST.get('url', None) # take url comes from client. (From an input may be?)
+        stock_code = request.POST.get('stock_code', None)
 
-        if not url:
+        if not stock_code:
             return JsonResponse({'error': 'Missing  args'})
 
-        if not is_valid_url(url):
-            return JsonResponse({'error': 'URL is invalid'})
+        if not is_valid_stock_code(stock_code):
+            return JsonResponse({'error': 'Stock Code is invalid'})
 
-        domain = urlparse(url).netloc # parse the url and extract the domain
         unique_id = str(uuid4()) # create a unique ID.
 
         # This is the custom settings for scrapy spider.
@@ -55,7 +63,7 @@ def crawl(request):
         # We are goint to use that to check task's status.
 
         task = scrapyd.schedule('default', 'newsbot',
-                settings=settings, url=url, domain=domain)
+                settings=settings, stock_code=stock_code)
 
         return JsonResponse({'task_id': task, 'unique_id': unique_id, 'status': 'started' })
 

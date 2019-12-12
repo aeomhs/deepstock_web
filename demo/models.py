@@ -122,7 +122,7 @@ class Price(models.Model):
 # https://medium.com/@ali_oguzhan/how-to-use-scrapy-with-django-application-c16fabd0e62e
 class ScrapyItem(models.Model):
     unique_id = models.CharField(max_length=100, null=True)
-    
+    stock_code = models.CharField(verbose_name='종목코드', max_length=6, null=True)
     title = models.TextField(verbose_name='제목', default='기사 제목', null=True)
     url = models.TextField(verbose_name='링크', default='기사 링크', null=True)
     info = models.TextField(verbose_name='사이트', default='기사 사이트', null=True)
@@ -133,6 +133,7 @@ class ScrapyItem(models.Model):
     @property
     def to_dict(self):
         data = {
+            'code' : json.loads(self.stock_code),
             'title': json.loads(self.title),
             'url'  : json.loads(self.url),
             'info' : json.loads(self.info),
@@ -141,4 +142,4 @@ class ScrapyItem(models.Model):
         return data
 
     def __str__(self):
-        return self.unique_id
+        return "[" + self.stock_code + "]" + self.unique_id

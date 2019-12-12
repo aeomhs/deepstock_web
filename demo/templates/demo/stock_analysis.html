@@ -24,8 +24,9 @@
         {% endif %}
         <canvas id="myChart" width="400" height="400"></canvas>
       </div>
-      <div class="relevant_news_list">
-
+      <div class="news-container">
+        {% block relevant_news %}
+        {% endblock %}
       </div>
     </main>
     <footer>
