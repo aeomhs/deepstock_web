@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 import scrapy, json
+# from urllib.request import urlopen
+#
+# stock_list = []
+# info_url = 'https://playstyle.s3.ap-northeast-2.amazonaws.com/items_info.json'
+# stock_info_json = json.loads(urlopen(info_url).read())
+# for stock in stock_info_json.values():
+#     stock_list.append(stock['code'])
 
 stock_list = [
     '005930'
