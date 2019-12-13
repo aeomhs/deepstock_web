@@ -5,12 +5,12 @@ from django.utils import timezone
 
 class KospiCompanyManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(market_type='KP')
+        return super().get_queryset().filter(market_type='kospi')
 
 
 class KosdaqCompanyMananger(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(market_type='KD')
+        return super().get_queryset().filter(market_type='kosdaq')
 
 
 class Company(models.Model):
@@ -53,7 +53,7 @@ class CompanyPriceManager(models.Manager):
                           WHERE p.company_id = p2.company_id
                           GROUP BY p2.company_id
                       ) AND
-                      c.market_type = 'KP'
+                      c.market_type = 'kospi'
                 """)
             result_list = []
             for row in cursor.fetchall():
@@ -74,7 +74,7 @@ class CompanyPriceManager(models.Manager):
                           WHERE p.company_id = p2.company_id
                           GROUP BY p2.company_id
                       ) AND
-                      c.market_type = 'KD'
+                      c.market_type = 'kosdaq'
                 """)
             result_list = []
             for row in cursor.fetchall():
