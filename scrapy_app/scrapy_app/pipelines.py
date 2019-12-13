@@ -36,6 +36,7 @@ class ScrapyAppPipeline(object):
             for i in self.items:
                 item = ScrapyItem()
                 item.unique_id = self.unique_id
+                item.stock_code = i['stock_code']
                 item.title = i['title']
                 item.url = i['url']
                 item.info = i['info']

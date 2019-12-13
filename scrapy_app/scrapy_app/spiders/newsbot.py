@@ -16,10 +16,15 @@ class NewsbotSpider(CrawlSpider):
     def __init__(self, *args, **kwargs):
         # We are going to pass these args from our django view.
         # To make everything dynamic, we need to override them inside __init__ method
-        self.url = kwargs.get('url')
-        self.domain = kwargs.get('domain')
-        self.start_urls = [self.url]
-        self.allowed_domains = [self.domain]
+        self.stock_code = kwargs.get('stock_code')
+        crawl_base_url = 'https://finance.naver.com/item/news_news.nhn'
+
+        self.start_urls = [
+            crawl_base_url + '?code=' + self.stock_code + '&page=1&sm=title_entity_id.basic&clusterId='
+        ]
+        self.allowed_domains = [
+            'finance.naver.com'
+        ]
 
         NewsbotSpider.rules = [
            Rule(LinkExtractor(unique=True), callback='parse_item'),
@@ -36,6 +41,7 @@ class NewsbotSpider(CrawlSpider):
         
         for item in zip(titles, urls, infos, dates):
             scraped_info = {
+                'stock_code': self.stock_code,
                 'title': item[0].strip(),
                 'url': self.base_url + item[1].strip(),
                 'info': item[2].strip(),
@@ -43,4 +49,4 @@ class NewsbotSpider(CrawlSpider):
             }
             yield scraped_info
         
-        return {'titles': titles, 'urls': urls, 'infos': infos, 'dates': dates}
+        return {'stock_code': self.stock_code, 'titles': titles, 'urls': urls, 'infos': infos, 'dates': dates}
