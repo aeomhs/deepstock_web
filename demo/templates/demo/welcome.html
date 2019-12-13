@@ -3,42 +3,32 @@
   {% load static %}
   <head>
     <title>Welcome to Deep Stock</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}" media="screen, projection">
+      	<!-- Mobile Specific Meta -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Author Meta -->
+	<meta name="author" content="DeepStock">
+	<!-- Meta Description -->
+	<meta name="description" content="">
+	<!-- Meta Keyword -->
+	<meta name="keywords" content="">
+	<!-- meta character set -->
+	<meta charset="UTF-8">
+	<!-- Site Title -->
     <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap&subset=korean" rel="stylesheet">
     <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
-    <link rel="stylesheet" href="{% static 'css/welcome.css' %}">
-    <link rel="stylesheet" href="{% static 'css/header.css' %}">
-    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
   </head>
   <body>
-    <header>
-      
-    </header>
-    <main role="main" class="container z-depth-3">
-      <div class="row">
-        <div class="col s12 title">
-            Deep Stock
+    <section class="relative layer">
+        <div class="banner-area">
+            <div class="banner-content">
+                <p class="text-white">We work hard, we result perfect</p>
+                <h1 class="text-white">DeepStock can read the future</h1>
+                <a href="{% url 'stock_list' %}" class="primary-btn banner-btn">Explore Us</a>
+            </div>
         </div>
-        <div class="col s5 hoverable left_card">
-          10년간의 데이터 기반 <br>
-          딥러닝을 통한 주가 예측 <br>
-          ...
-        </div>
-        <div class="col s5 hoverable right_card">
-          분산 시스템 기반 <br>
-          하루에 한 번 업데이트 <br>
-          ...
-        </div>
-      </div>
-      <a href="/stock_list/" class="waves-effect waves-light btn">
-        Enter
-      </a>
-    </main>
-    <footer>
-    </footer>
+    </section>
     <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+
   </body>
 </html>
