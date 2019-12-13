@@ -1,0 +1,10 @@
+{% extends 'demo/stock_analysis.html' %}
+{% block relevant_news %}
+    <div class="row">
+        {% for news in news_list %}
+        <div class="col s4 news-item card">
+            <!-- News Card -->
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
