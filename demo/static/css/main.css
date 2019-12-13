@@ -1102,7 +1102,7 @@ td, th {
   position: fixed;
   top: 0;
   left: 0;
-  background: url(../img/banner.jpeg) no-repeat center center/cover;
+  background: url(../images/banner.jpeg) no-repeat center center/cover;
   /* Preserve aspet ratio */
   width: 100%;
   height: 100%;
@@ -1256,35 +1256,35 @@ td, th {
 }
 
 .single-filter-content.content-1 {
-  background: url(../img/c1.jpg) no-repeat center center/cover;
+  background: url(../images/c1.jpg) no-repeat center center/cover;
 }
 
 .single-filter-content.content-2 {
-  background: url(../img/c2.jpg) no-repeat center center/cover;
+  background: url(../images/c2.jpg) no-repeat center center/cover;
 }
 
 .single-filter-content.content-3 {
-  background: url(../img/c3.jpg) no-repeat center center/cover;
+  background: url(../images/c3.jpg) no-repeat center center/cover;
 }
 
 .single-filter-content.content-4 {
-  background: url(../img/c4.jpg) no-repeat center center/cover;
+  background: url(../images/c4.jpg) no-repeat center center/cover;
 }
 
 .single-filter-content.content-5 {
-  background: url(../img/c5.jpg) no-repeat center center/cover;
+  background: url(../images/c5.jpg) no-repeat center center/cover;
 }
 
 .single-filter-content.content-6 {
-  background: url(../img/c6.jpg) no-repeat center center/cover;
+  background: url(../images/c6.jpg) no-repeat center center/cover;
 }
 
 .single-filter-content.content-7 {
-  background: url(../img/c7.jpg) no-repeat center center/cover;
+  background: url(../images/c7.jpg) no-repeat center center/cover;
 }
 
 .single-filter-content.content-8 {
-  background: url(../img/c8.jpg) no-repeat center center/cover;
+  background: url(../images/c8.jpg) no-repeat center center/cover;
 }
 
 .single-member {
@@ -1387,7 +1387,7 @@ td, th {
   top: 0;
   width: 50%;
   height: 100%;
-  background: url(../img/studio-bg.jpg) no-repeat center center/cover;
+  background: url(../images/studio-bg.jpg) no-repeat center center/cover;
   z-index: 1;
 }
 
