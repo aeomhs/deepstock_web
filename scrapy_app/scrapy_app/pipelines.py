@@ -8,7 +8,6 @@
 # https://medium.com/@ali_oguzhan/how-to-use-scrapy-with-django-application-c16fabd0e62e
 from demo.models import ScrapyItem
 from demo.models import Company, Price
-import json
 import logging
 from django.db import IntegrityError
 
@@ -44,6 +43,7 @@ class ScrapyAppPipeline(object):
                 item.save()
         elif spider.name == 'stockbot':
             for i in self.items:
+                # 종목 정보 저장
                 try:
                     company = Company.objects.get(name=i['stock_name'])
                 except Company.DoesNotExist:
@@ -52,24 +52,27 @@ class ScrapyAppPipeline(object):
                     company.market_type = i['market_type']
                     company.code = i['stock_code']
                     company.save()
-
-                try:
-                    price = Price()
-                    price.company = company
-                    price.price = i['price']
-                    price.date = i['price_date']
-                    price.save()
-                except IntegrityError:
-                    price = Price.objects.get(company=company, date=i['price_date'])
-                    price.price = i['price']
-                    price.save()
-                    logger.info("Already Exist Data, Price updated")
-
+                # 종목별 실제 가격 저장
+                previous_prices = i['previous_prices']
+                for price_date in previous_prices:
+                    # logger.info("Saving... %s", price_date)
+                    try:
+                        price = Price()
+                        price.company = company
+                        price.price = price_date['price']
+                        price.date = price_date['date']
+                        price.save()
+                    except IntegrityError:
+                        price = Price.objects.get(company=company, date=price_date['date'])
+                        price.price = price_date['price']
+                        price.save()
+                        logger.info("Already Exist Data, Price updated")
+                # 종목별 예측 가격 저장
                 try:
                     predict = Price()
                     predict.company = company
-                    predict.price = i['predict']
-                    predict.date = i['predict_date']
+                    predict.price = i['predict_price']['price']
+                    predict.date = i['predict_price']['date']
                     predict.save()
                 except IntegrityError:
                     logger.info("Already Exist Data, Didn't saved")

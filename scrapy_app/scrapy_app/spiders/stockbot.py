@@ -39,10 +39,13 @@ class StockbotSpider(scrapy.Spider):
             'stock_name': stock_item['stock_name'],
             'market_type': stock_item['market_type'],
             'stock_code': stock_item['stock_code'],
-            'price': stock_item['price'],
-            'price_date': stock_item['price_date'],
-            'predict': stock_item['predict'],
-            'predict_date': stock_item['predict_date'],
+            # 'price': stock_item['price'],
+            # 'price_date': stock_item['price_date'],
+            # 'predict': stock_item['predict'],
+            # 'predict_date': stock_item['predict_date'],
+            # 20191215 Multiple PriceDate Data
+            'previous_prices': stock_item['previous_prices'], # list<dict>
+            'predict_price': stock_item['predict_price'],     # dict
         }
 
         return scraped_info
