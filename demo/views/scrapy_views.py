@@ -25,6 +25,8 @@ def is_valid_url(url):
 
 
 def is_valid_stock_code(code):
+    if code == 'all':
+        return True
     try:
         Company.objects.get(code=code)
         return True
@@ -41,10 +43,10 @@ def crawl(request):
         stock_code = request.POST.get('stock_code', None)
 
         if not stock_code:
-            return JsonResponse({'error': 'Missing  args'})
+            return JsonResponse({'error': '입력이 부족합니다.'})
 
         if not is_valid_stock_code(stock_code):
-            return JsonResponse({'error': 'Stock Code is invalid'})
+            return JsonResponse({'error': '정보가 없는 주식 종목이거나, 옮바르지 않은 입력입니다.'})
 
         unique_id = str(uuid4()) # create a unique ID.
 
@@ -78,7 +80,7 @@ def crawl(request):
         unique_id = request.GET.get('unique_id', None)
 
         if not task_id or not unique_id:
-            return JsonResponse({'error': 'Missing args'})
+            return JsonResponse({'error': '입력이 부족합니다.'})
 
         # Here we check status of crawling that just started a few seconds ago.
         # If it is finished, we can query from database and get results
@@ -113,9 +115,9 @@ def stock_init(request):
         secure = request.POST.get('secure', None)
 
         if not secure:
-            return JsonResponse({'ERROR': 'No Secure Access'})
+            return JsonResponse({'ERROR': '보안이 없는 요청입니다.'})
         if not is_valid_secure(secure):
-            return JsonResponse({'ERROR': 'Wrong Secure Token'})
+            return JsonResponse({'ERROR': '보안 입력값이 올바르지 않습니다.'})
 
         unique_id = str(uuid4())  # create a unique ID.
 
