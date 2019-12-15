@@ -23,8 +23,7 @@ def stock_list(request):
         'kosdaq_list' : kosdaq_list,
     }
 
-    return render(request, 'demo/table.html')
-    # return render(request, 'demo/stock_list.html', {'stock_list':stock_list})
+    return render(request, 'demo/stock_list.html', {'stock_list': stock_list})
 
 
 # TODO 종목 분석 페이지 구현

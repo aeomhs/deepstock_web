@@ -57,7 +57,7 @@ class CompanyPriceManager(models.Manager):
                 """)
             result_list = []
             for row in cursor.fetchall():
-                p = self.model(id=row[0], name=row[0], code=row[1], price=row[2])
+                p = self.model(id=row[0], name=row[0], code=row[1], price=f"{row[2]:,d}")
                 result_list.append(p)
         return result_list
 
@@ -78,7 +78,7 @@ class CompanyPriceManager(models.Manager):
                 """)
             result_list = []
             for row in cursor.fetchall():
-                p = self.model(id=row[0], name=row[0], code=row[1], price=row[2])
+                p = self.model(id=row[0], name=row[0], code=row[1], price=f"{row[2]:,d}")
                 result_list.append(p)
         return result_list
 
