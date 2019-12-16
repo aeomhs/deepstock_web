@@ -1255,49 +1255,6 @@ td, th {
   opacity: 1;
 }
 
-.single-filter-content.content-1 {
-  background: url(../images/c1.jpg) no-repeat center center/cover;
-}
-
-.single-filter-content.content-2 {
-  background: url(../images/c2.jpg) no-repeat center center/cover;
-}
-
-.single-filter-content.content-3 {
-  background: url(../images/c3.jpg) no-repeat center center/cover;
-}
-
-.single-filter-content.content-4 {
-  background: url(../images/c4.jpg) no-repeat center center/cover;
-}
-
-.single-filter-content.content-5 {
-  background: url(../images/c5.jpg) no-repeat center center/cover;
-}
-
-.single-filter-content.content-6 {
-  background: url(../images/c6.jpg) no-repeat center center/cover;
-}
-
-.single-filter-content.content-7 {
-  background: url(../images/c7.jpg) no-repeat center center/cover;
-}
-
-.single-filter-content.content-8 {
-  background: url(../images/c8.jpg) no-repeat center center/cover;
-}
-
-.single-member {
-  margin-top: 30px;
-}
-
-.single-member .thumb {
-  background-repeat: no-repeat !important;
-  background-position: center center !important;
-  background-size: cover !important;
-  height: 300px;
-}
-
 .single-member .thumb .overlay-member {
   background: -moz-linear-gradient(left, rgba(60, 64, 143, 0.95) 0%, rgba(91, 97, 207, 0.95) 100%);
   background: -webkit-linear-gradient(left, rgba(60, 64, 143, 0.95) 0%, rgba(91, 97, 207, 0.95) 100%);
@@ -1378,17 +1335,6 @@ td, th {
     background: rgba(64, 69, 152, 0.95);
     width: 100%;
   }
-}
-
-.studio-area:after {
-  position: absolute;
-  content: "";
-  right: 0;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  background: url(../images/studio-bg.jpg) no-repeat center center/cover;
-  z-index: 1;
 }
 
 @media (max-width: 991px) {

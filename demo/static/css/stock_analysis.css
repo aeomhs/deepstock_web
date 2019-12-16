@@ -1,0 +1,5 @@
+body, html {
+	height: 100%;
+	font-family: sans-serif;
+    background: url(../images/banner.jpeg) repeat center center/cover;
+}

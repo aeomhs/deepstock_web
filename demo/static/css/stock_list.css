@@ -141,11 +141,24 @@ iframe {
   margin: 0 auto;
 }
 
+#top-margin {
+  padding: 20% 0;
+}
+
 .list-title {
   font-family: Lato-Bold;
+  font-size: 28px;
   color: #f5dd5d;
   text-align: center;
-  margin: 10px 0;
+  margin: 30px 0;
+}
+
+.list-body {
+  font-family: Lato-Regular;
+  color: #dddddd;
+  font-size: 18px;
+  text-align: center;
+  margin: 3% 0;
 }
 
 .container-table100 {
