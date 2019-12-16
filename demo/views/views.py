@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from ..models import Company, Price, CompanyPrice, PredictedPrice
+from ..models import Company, Price, CompanyPrice, PredictedPrice, ScrapyItem
 import datetime
 
 # TODO 웹 방문 첫 페이지 구현
@@ -58,6 +58,27 @@ def stock_list(request):
 # 기능 2 종목 관련 뉴스 제공
 # 기능 3 이전 페이지 이동
 def stock_analysis(request, stock_code):
+    # stock_list 에서 선택된 종목 코드 인자값으로 받아온다. : stock_code
+    # 종목이름, 가격리스트, 예측 가격리스트, 관련 뉴스 리스트
+    stock_name = Company.objects.get(code=stock_code)
+    price_list = Price.objects.filter(company__code=stock_code)[:30] # 최대 30개
+    predicted_price_list = PredictedPrice.objects.filter(company__code=stock_code)[:30]
+    relevant_news_list = ScrapyItem.objects.filter(stock_code=stock_code)[:10] # 최대 10개의 뉴스만 가져온다.
 
+    # TEST Fetch Data
+    print("주식 종목 : ", stock_name)
+    for price_date in price_list:
+        print(price_date.date, price_date.price)
+    for price_date in predicted_price_list:
+        print(price_date.date, price_date.price)
+    for news in relevant_news_list:
+        print(news.date, news.title, news.info, news.url)
 
-    return render(request, 'demo/stock_analysis.html', {'stock_code':stock_code})
+    stock_data = {
+        'name': stock_name,
+        'price_list': price_list,
+        'predicted_price_list': predicted_price_list,
+        'relevant_news_list': relevant_news_list,
+    }
+
+    return render(request, 'demo/stock_analysis.html', {'stock_data': stock_data})

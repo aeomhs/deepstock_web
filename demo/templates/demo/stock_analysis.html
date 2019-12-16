@@ -9,6 +9,44 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/stock_analysis.css' %}">
   </head>
   <body>
+    <header>
+      <a href="/">home</a>
+      <a href="/stock_list/">stock_list</a>
+    </header>
+    <main role="main" class="container">
+      <div class="stock_analysis">
+        <p> {#  stock_data 예시  #}
+          {{ stock_data.name }}<br>
+          지금까지의 주가<br>
+          {% for price in stock_data.price_list %}
+              [ {{ price.date }} ]{{ price.price }} <br>
+          {% endfor %}
+          예측 주가<br>
+          {% for price in stock_data.predicted_price_list %}
+              [ {{ price.date }} ]{{ price.price }} <br>
+          {% endfor %}
+        </p>
+        <canvas id="myChart" width="400" height="400"></canvas>
+      </div>
+      <div class="news-container row">
+{#        Django Template Inheritance https://docs.djangoproject.com/en/2.2/ref/templates/language/#template-inheritance #}
+{#        나중에 분리 가능 #}
+{#        {% block relevant_news %}#}
+{#        {% endblock %}#}
+        {% for news in stock_data.relevant_news_list %}
+        <div class="col s4 news-item card">
+            <!-- News Card -->
+            <h3>{{ news.title }}</h3>
+            {{ news.date }}
+            <a href="{{ news.url }}" >원문보기</a>
+            {{ news.info }}
+        </div>
+        {% endfor %}
+      </div>
+    </main>
+    <footer>
+
+    </footer>
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="{% static 'js/stock_analysis.js' %}"></script>
   </body>
