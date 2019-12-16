@@ -1,10 +1,14 @@
+{#        Django Template Inheritance https://docs.djangoproject.com/en/2.2/ref/templates/language/#template-inheritance #}
 {% extends 'demo/stock_analysis.html' %}
+
 {% block relevant_news %}
-    <div class="row">
-        {% for news in news_list %}
-        <div class="col s4 news-item card">
-            <!-- News Card -->
-        </div>
-        {% endfor %}
+    {% for news in stock_data.relevant_news_list %}
+    <div class="col s4 news-item card">
+        <!-- News Card -->
+        <h3>{{ news.title }}</h3>
+        {{ news.date }}
+        <a href="{{ news.url }}" >원문보기</a>
+        {{ news.info }}
     </div>
+    {% endfor %}
 {% endblock %}
