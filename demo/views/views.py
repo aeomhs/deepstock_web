@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from ..models import Company, Price, CompanyPrice
-
+from ..models import Company, Price, CompanyPrice, PredictedPrice
+import datetime
 
 # TODO 웹 방문 첫 페이지 구현
 # 요소 : 간단한 intro
@@ -18,12 +18,25 @@ def stock_list(request):
     kospi_list = CompanyPrice.objects.get_kospi_stock_list()
     kosdaq_list = CompanyPrice.objects.get_kosdaq_stock_list()
 
+    # Added, 예측 주가 모델 추가
+    # 예측 주가 중, 현재 날짜 이후의 값들만 불러온다.
+    # 현재는 다음 날의 종가만 예측하기 때문에 문제없지만,
+    # 그 이상을 함께 예측할 경우, 한 종목에 대하여 여러 날짜에 대한 예측 값이 넘어갈 수 있다.
+    # 이 경우, Templates 쪽에서 헷갈리지 않게, 날짜별로 보여주는 방법이 있다.
+    # 혹은, 원하는 날짜에 대해서만 filter할 수도 있다. 이 경우 아래 코드를 수정해야한다.
+    predicted_kospi_list = PredictedPrice.objects.filter(company__market_type='kospi', date__gt=datetime.date.today().isoformat())
+    predicted_kosdaq_list = PredictedPrice.objects.filter(company__market_type='kosdaq', date__gt=datetime.date.today().isoformat())
+
+    # TEST Fetch Data
+    print(predicted_kospi_list)
+    print(predicted_kosdaq_list)
+
     stock_list = {
         'kospi_list' : kospi_list,
         'kosdaq_list' : kosdaq_list,
     }
 
-    return render(request, 'demo/stock_list.html', {'stock_list': stock_list})
+    return render(request, 'demo/stock_list.html', {'stock_list':stock_list})
 
 
 # TODO 종목 분석 페이지 구현

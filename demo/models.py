@@ -119,6 +119,35 @@ class Price(models.Model):
         return "["+self.company.__str__()+"]"+self.date.strftime('%Y/%m/%d')
 
 
+# 20191216 예측 주가에 대한 모델 구현
+class PredictedPrice(models.Model):
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        verbose_name='예측 종목',
+    )
+
+    date = models.DateField(
+        verbose_name='예측 날짜',
+    )
+
+    price = models.IntegerField(
+        verbose_name='예측 주가',
+    )
+
+    objects = models.Manager()
+
+    class Meta:
+        verbose_name='예측 주가'
+        verbose_name_plural='날짜별 예측 주가'
+        # 날짜별 각 종목의 시가는 단 하나의 칼럼으로 이루어진다.
+        unique_together=(('company', 'date'),)
+        ordering=['-date']
+
+    def __str__(self):
+        return "["+self.company.__str__()+"]"+self.date.strftime('%Y/%m/%d')
+
+
 # https://medium.com/@ali_oguzhan/how-to-use-scrapy-with-django-application-c16fabd0e62e
 class ScrapyItem(models.Model):
     unique_id = models.CharField(max_length=100, null=True)
