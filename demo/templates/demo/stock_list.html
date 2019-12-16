@@ -1,61 +1,152 @@
 <!DOCTYPE html>
-<html lang="ko" dir="ltr">
-{% load static %}
-  <head>
-    <title>Deep Stock</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}" media="screen, projection">
-    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap&subset=korean" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/stock_list.css' %}">
-    <link rel="stylesheet" href="{% static 'css/header.css' %}">
-    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
-  </head>
-  <body>
-    <header>
-      <a href="/">home</a>
-    </header>
-    <main role="main" class="container">
-      <div class="stock_list">
-        {% if stock_list %}
-        <div class="stock_container">
-          <ul>
-            {% for kospi_company in stock_list.kospi_list %}
-            <li class="listitem">
-              <a class="stock_item" href="/stock_analysis/{{kospi_company.code}}/">
-                {{kospi_company.name}}
-                {{kospi_company.price}}
-              </a>
-            </li>
-            {% endfor %}
-          </ul>
-          <p>코스피 종목 리스트입니다.</p>
+<html lang="en">
+<head>
+	<title>Stock List</title>
+    {% load staticfiles %}
+    {% load humanize %}
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/stock_list.css' %}">
+<!--===============================================================================================-->
+</head>
+<body>
+	<div class="limiter">
+        <div id="top-margin">
+            <div class="list-title">
+                <h2>Stock List</h2>
+            </div>
+            <div class="list-body">
+                <p>
+                    코스피/코스닥 상장사 중 상위 30개 종목들의 10년치 데이터를 학습하여
+                    <br>
+                    내일의 종가를 예측했습니다.
+                    <br>
+                    각 종목의 이름을 클릭하면 보다 상세한 내용을 확인할 수 있습니다.
+                </p>
+            </div>
         </div>
-        <div class="stock_container">
-          <ul>
-            {% for kosdaq_company in stock_list.kosdaq_list %}
-            <li class="listitem">
-              <a class="stock_item" href="/stock_analysis/{{kosdaq_company.code}}/">
-                {{kosdaq_company.name}}
-                {{kosdaq_company.price}}
-              </a>
-            </li>
-            {% endfor %}
-          </ul>
-          <p>코스닥 종목 리스트입니다.</p>
-        </div>
-        {% else %}
-          <p>No List</p>
-        {% endif %}
-      </div>
-      <div class="description">
-        원하는 종목을 선택해주세요.
 
-      </div>
-    </main>
-    <footer>
-    </footer>
-    <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
-  </body>
+        <div class="list-title">
+            <h2>KOSPI</h2>
+        </div>
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="table100 ver3 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1">Name</th>
+									<th class="cell100 column2">Today</th>
+									<th class="cell100 column3">Predict</th>
+									<th class="cell100 column4">Rate</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+					<div class="table100-body js-pscroll">
+						<table>
+							<tbody>
+                            {% if stock_list %}
+                                {% for kospi_data in stock_list.kospi_list %}
+								<tr class="row100 body">
+									<td class="cell100 column1">
+                                        <a style="color: white" href="{% url 'stock_analysis' kospi_data.0.code %}">
+                                        {{ kospi_data.0.name }}
+                                        </a>
+                                    </td>
+									<td class="cell100 column2">{{ kospi_data.0.price|intcomma }}</td>
+									<td class="cell100 column3">{{ kospi_data.1.price|intcomma }}</td>
+									<td class="cell100 column4">{{ kospi_data.2 }} %</td>
+								</tr>
+                                {% endfor %}
+                            {% endif %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+    <div class="list-title">
+            <h2>KOSDAQ</h2>
+        </div>
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="table100 ver3 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1">Name</th>
+									<th class="cell100 column2">Today</th>
+									<th class="cell100 column3">Predict</th>
+									<th class="cell100 column4">Rate</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+					<div class="table100-body js-pscroll">
+						<table>
+							<tbody>
+                            {% if stock_list %}
+                                {% for kosdaq_data in stock_list.kosdaq_list %}
+								<tr class="row100 body">
+                                    <td class="cell100 column1">
+                                        <a style="color: white" href="{% url 'stock_analysis' kosdaq_data.0.code %}">
+                                            {{kosdaq_data.0.name}}
+                                        </a>
+                                    </td>
+									<td class="cell100 column2">{{ kosdaq_data.0.price|intcomma }}</td>
+									<td class="cell100 column3">{{ kosdaq_data.1.price|intcomma }}</td>
+									<td class="cell100 column4">{{ kosdaq_data.2}} %</td>
+								</tr>
+                                {% endfor %}
+                            {% endif %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<!--===============================================================================================-->	
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			var ps = new PerfectScrollbar(this);
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+			
+		
+	</script>
+<!--===============================================================================================-->
+	<script src="{% static 'js/stock_list.js' %}"></script>
+
+</body>
 </html>
