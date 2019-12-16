@@ -183,6 +183,10 @@ th, td {
   padding-right: 10px;
 }
 
+.stock-link {
+  color: #ffffff;
+}
+
 .column1 {
   width: 60%;
   padding-left: 40px;
@@ -193,11 +197,11 @@ th, td {
 }
 
 .column3 {
-  width: 35%;
+  width: 15%;
 }
 
 .column4 {
-  width: 19%;
+  width: 10%;
 }
 
 .column5 {
