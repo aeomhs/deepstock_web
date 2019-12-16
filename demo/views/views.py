@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from ..models import Company, Price, CompanyPrice
+from ..models import Company, Price, CompanyPrice, PredictedPrice
 
 
 # TODO 웹 방문 첫 페이지 구현
@@ -17,7 +17,15 @@ def index(request):
 def stock_list(request):
     kospi_list = CompanyPrice.objects.get_kospi_stock_list()
     kosdaq_list = CompanyPrice.objects.get_kosdaq_stock_list()
-        
+
+    # Added, 예측 주가 모델 추가
+    predicted_kospi_list = PredictedPrice.objects.filter(company__market_type='kospi')
+    predicted_kosdaq_list = PredictedPrice.objects.filter(company__market_type='kosdaq')
+
+    # TEST Fetch Data
+    print(predicted_kospi_list)
+    print(predicted_kosdaq_list)
+
     stock_list = {
         'kospi_list' : kospi_list,
         'kosdaq_list' : kosdaq_list,

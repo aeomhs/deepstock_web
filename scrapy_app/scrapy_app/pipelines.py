@@ -7,7 +7,7 @@
 
 # https://medium.com/@ali_oguzhan/how-to-use-scrapy-with-django-application-c16fabd0e62e
 from demo.models import ScrapyItem
-from demo.models import Company, Price
+from demo.models import Company, Price, PredictedPrice
 import logging
 from django.db import IntegrityError
 
@@ -68,14 +68,18 @@ class ScrapyAppPipeline(object):
                         price.save()
                         logger.info("Already Exist Data, Price updated")
                 # 종목별 예측 가격 저장
+                # Modified, 예측 주가 Model 생성
                 try:
-                    predict = Price()
+                    predict = PredictedPrice()
                     predict.company = company
                     predict.price = i['predict_price']['price']
                     predict.date = i['predict_price']['date']
                     predict.save()
                 except IntegrityError:
-                    logger.info("Already Exist Data, Didn't saved")
+                    predict = PredictedPrice.get(company=company, date=i['predict_price']['date'])
+                    predict.date = i['predict_price']['date']
+                    predict.save()
+                    logger.info("Already Exist Data, Predicted Price updated")
 
     def process_item(self, item, spider):
         self.items.append(item)
