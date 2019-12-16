@@ -1,6 +1,5 @@
-.container{
-  font-size: 1.2em;
-  font-family: 'Do Hyeon', sans-serif;
-  text-align:center;
-  height: 400px
+body, html {
+	height: 100%;
+	font-family: sans-serif;
+    background: url(../images/banner.jpeg) repeat center center/cover;
 }
