@@ -153,9 +153,15 @@ class ScrapyItem(models.Model):
     unique_id = models.CharField(max_length=100, null=True)
     stock_code = models.CharField(verbose_name='종목코드', max_length=6, null=True)
     title = models.TextField(verbose_name='제목', default='기사 제목', null=True)
+    # 중복 url로 없앨 수 있을 것 같음. url은 유니크하니까.
     url = models.TextField(verbose_name='링크', default='기사 링크', null=True)
     info = models.TextField(verbose_name='사이트', default='기사 사이트', null=True)
     date = models.TextField(verbose_name='날짜', default='기사 날짜', null=True)
+
+    class Meta:
+        verbose_name = '관련 뉴스'
+        verbose_name_plural = '관련 뉴스'
+        ordering=['-date']
 
     # 사용안하고 있음, 현재 objects.filter().values() -> list로 변경하여 JsonResponse 사용
     # Link : demo/views/scrapy_views.py

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from ..models import Company, Price, CompanyPrice, PredictedPrice
+from ..models import Company, Price, CompanyPrice, PredictedPrice, ScrapyItem
 import datetime
 
 # TODO 웹 방문 첫 페이지 구현
@@ -79,3 +79,4 @@ def stock_analysis(request, stock_code, predict_price):
                    'predict_price': predict_price,
                    'date_list': date_list,
                    'price_list': price_list})
+
