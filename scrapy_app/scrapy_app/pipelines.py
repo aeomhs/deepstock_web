@@ -76,7 +76,7 @@ class ScrapyAppPipeline(object):
                     predict.date = i['predict_price']['date']
                     predict.save()
                 except IntegrityError:
-                    predict = PredictedPrice.get(company=company, date=i['predict_price']['date'])
+                    predict = PredictedPrice.objects.get(company=company, date=i['predict_price']['date'])
                     predict.date = i['predict_price']['date']
                     predict.save()
                     logger.info("Already Exist Data, Predicted Price updated")

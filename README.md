@@ -95,10 +95,15 @@ Quit the server with CONTROL-C.
 ## News Crawling
 #### POST Request, Start news crawling  
 ```
+/* 종목 관련 뉴스 크롤링 */
 curl --data-urlencode "stock_code=005930" \
      http://localhost:8000/api/crawl/
 
 {"task_id": "61b6b1c81c9c11ea99039cf387aa8006", "unique_id": "ab1a0337-8838-4eb8-b4dd-0f4464d97d79", "status": "started"}
+
+/* 모든 종목 관련 뉴스 크롤링 */
+curl --data-urlencode "stock_code=all" \
+     http://localhost:8000/api/crawl/
 ```
 
 #### GET Request, Return news crawling data  
