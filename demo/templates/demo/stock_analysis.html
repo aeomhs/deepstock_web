@@ -2,6 +2,7 @@
 <html lang="ko" dir="ltr">
   <head>
     {% load staticfiles %}
+    {% load humanize %}
     <title>Deep Stock</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -12,11 +13,11 @@
   <body>
     <div id="top-margin">
         <div class="list-title">
-            <h2>종목 이름</h2>
+            <h2>{{ stock_name }}</h2>
         </div>
         <div class="list-body">
             <p>
-                이 종목의 예측 종가는 000000원 입니다.
+                이 종목의 예측 종가는 <span id="predict-price">{{ predict_price|intcomma }} </span>원 입니다.
             </p>
         </div>
     </div>
@@ -31,6 +32,9 @@
     <script src="https://d3js.org/d3.v3.min.js"></script>
 
     <script type="text/javascript" src="{% static 'js/stock_analysis.js' %}"></script>
+    <script>
+        setTimeout(function() {draw_chart('{{ stock_name }}', {{ date_list|safe }}, {{ price_list }})}, 500);
+    </script>
   </body>
 
 </html>

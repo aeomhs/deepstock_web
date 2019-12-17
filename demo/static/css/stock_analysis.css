@@ -13,7 +13,7 @@ body, html {
 }
 
 #top-margin {
-  padding: 20% 0;
+  padding: 18% 0;
 }
 
 .list-title {
@@ -33,4 +33,9 @@ body, html {
 
 .list-body p {
     font-weight: bold;
+}
+
+#predict-price {
+    color: dodgerblue;
+    font-size: 28px !important;
 }

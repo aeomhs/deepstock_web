@@ -64,7 +64,7 @@
                                 {% for kospi_data in stock_list.kospi_list %}
 								<tr class="row100 body">
 									<td class="cell100 column1">
-                                        <a style="color: white" href="{% url 'stock_analysis' kospi_data.0.code %}">
+                                        <a style="color: white" href="{% url 'stock_analysis' stock_code=kospi_data.0.code predict_price=kospi_data.1 %}">
                                         {{ kospi_data.0.name }}
                                         </a>
                                     </td>
@@ -112,7 +112,7 @@
                                 {% for kosdaq_data in stock_list.kosdaq_list %}
 								<tr class="row100 body">
                                     <td class="cell100 column1">
-                                        <a style="color: white" href="{% url 'stock_analysis' kosdaq_data.0.code %}">
+                                        <a style="color: white" href="{% url 'stock_analysis' stock_code=kosdaq_data.0.code predict_price=kosdaq_data.1 %}">
                                             {{kosdaq_data.0.name}}
                                         </a>
                                     </td>

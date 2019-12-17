@@ -53,6 +53,7 @@ def stock_list(request):
     return render(request, 'demo/stock_list.html', {
         'stock_list': stock_list})
 
+
 def custom_filter(stocks, find_filter):
     for x in stocks:
         if find_filter(x):
@@ -64,7 +65,17 @@ def custom_filter(stocks, find_filter):
 # 기능 1 종목의 주가 예측 그래프 제공
 # 기능 2 종목 관련 뉴스 제공
 # 기능 3 이전 페이지 이동
-def stock_analysis(request, stock_code):
-    date_list = Price.objects.filter()
+def stock_analysis(request, stock_code, predict_price):
+    data_set = sorted(list(Price.objects.filter(company__code=stock_code)), key=lambda x: x.date)
+    date_list = []
+    price_list = []
+    for i in range(len(data_set)):
+        date_list.append(data_set[i].date.isoformat())
+        price_list.append(data_set[i].price)
 
-    return render(request, 'demo/stock_analysis.html', {'stock_code':stock_code})
+    return render(request, 'demo/stock_analysis.html',
+                  {'stock_code': stock_code,
+                   'stock_name': data_set[0].company.name,
+                   'predict_price': predict_price,
+                   'date_list': date_list,
+                   'price_list': price_list})
