@@ -1,15 +1,36 @@
 <!DOCTYPE html>
 <html lang="ko" dir="ltr">
-{% load static %}
   <head>
+    {% load staticfiles %}
     <title>Deep Stock</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap&subset=korean" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/stock_analysis.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.18/c3.min.css">
+    <link rel="stylesheet" href="{% static 'css/stock_analysis.css' %}">
   </head>
   <body>
-    <!--JavaScript at end of body for optimized loading-->
+    <div id="top-margin">
+        <div class="list-title">
+            <h2>종목 이름</h2>
+        </div>
+        <div class="list-body">
+            <p>
+                이 종목의 예측 종가는 000000원 입니다.
+            </p>
+        </div>
+    </div>
+
+    <div class="list-title">
+        <h2>최근 30일 주가</h2>
+    </div>
+    <div id="chart"></div>
+
+      <!--JavaScript at end of body for optimized loading-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+
     <script type="text/javascript" src="{% static 'js/stock_analysis.js' %}"></script>
   </body>
+
 </html>

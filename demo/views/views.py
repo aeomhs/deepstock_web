@@ -32,15 +32,17 @@ def stock_list(request):
     # print(predicted_kosdaq_list)
 
     kospi_data = []
-    for i in range(len(kospi_list)):
-        kospi_data.append((kospi_list[i], predicted_kospi_list[i],
-                           round((int(predicted_kospi_list[i].price) - int(kospi_list[i].price))
+    for i in range(len(predicted_kospi_list)):
+        predict_price = custom_filter(predicted_kospi_list, lambda x: x.company.name == kospi_list[i].name)
+        kospi_data.append((kospi_list[i], predict_price,
+                           round((predict_price - int(kospi_list[i].price))
                                  / int(kospi_list[i].price) * 100.0, 2)))
 
     kosdaq_data = []
-    for i in range(len(kosdaq_list)):
-        kosdaq_data.append((kosdaq_list[i], predicted_kosdaq_list[i],
-                            round((int(predicted_kosdaq_list[i].price) - int(kosdaq_list[i].price))
+    for i in range(len(predicted_kosdaq_list)):
+        predict_price = custom_filter(predicted_kosdaq_list, lambda x: x.company.name == kosdaq_list[i].name)
+        kosdaq_data.append((kosdaq_list[i], predict_price,
+                            round((predict_price - int(kosdaq_list[i].price))
                                   / int(kosdaq_list[i].price) * 100.0, 2)))
 
     stock_list = {
@@ -51,6 +53,11 @@ def stock_list(request):
     return render(request, 'demo/stock_list.html', {
         'stock_list': stock_list})
 
+def custom_filter(stocks, find_filter):
+    for x in stocks:
+        if find_filter(x):
+            return int(x.price)
+    return 0
 
 # TODO 종목 분석 페이지 구현
 # 요소 : 그래프, 설명, 관련 뉴스
@@ -58,6 +65,6 @@ def stock_list(request):
 # 기능 2 종목 관련 뉴스 제공
 # 기능 3 이전 페이지 이동
 def stock_analysis(request, stock_code):
-
+    date_list = Price.objects.filter()
 
     return render(request, 'demo/stock_analysis.html', {'stock_code':stock_code})
