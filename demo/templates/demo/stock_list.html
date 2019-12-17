@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Stock List</title>
+	<title>Deep Stock</title>
     {% load staticfiles %}
     {% load humanize %}
 	<meta charset="UTF-8">
@@ -64,13 +64,19 @@
                                 {% for kospi_data in stock_list.kospi_list %}
 								<tr class="row100 body">
 									<td class="cell100 column1">
-                                        <a style="color: white" href="{% url 'stock_analysis' kospi_data.0.code %}">
+                                        <a style="color: white" href="{% url 'stock_analysis' stock_code=kospi_data.0.code predict_price=kospi_data.1 %}">
                                         {{ kospi_data.0.name }}
                                         </a>
                                     </td>
 									<td class="cell100 column2">{{ kospi_data.0.price|intcomma }}</td>
-									<td class="cell100 column3">{{ kospi_data.1.price|intcomma }}</td>
-									<td class="cell100 column4">{{ kospi_data.2 }} %</td>
+									<td class="cell100 column3">{{ kospi_data.1|intcomma }}</td>
+                                    {% if kospi_data.2 > 0.0 %}
+									<td class="cell100 column4 red">
+                                    {% elif kospi_data.2 < 0.0 %}
+                                    <td class="cell100 column4 blue">
+                                    {% endif %}
+                                        {{ kospi_data.2 }} %
+                                    </td>
 								</tr>
                                 {% endfor %}
                             {% endif %}
@@ -106,13 +112,20 @@
                                 {% for kosdaq_data in stock_list.kosdaq_list %}
 								<tr class="row100 body">
                                     <td class="cell100 column1">
-                                        <a style="color: white" href="{% url 'stock_analysis' kosdaq_data.0.code %}">
+                                        <a style="color: white" href="{% url 'stock_analysis' stock_code=kosdaq_data.0.code predict_price=kosdaq_data.1 %}">
                                             {{kosdaq_data.0.name}}
                                         </a>
                                     </td>
 									<td class="cell100 column2">{{ kosdaq_data.0.price|intcomma }}</td>
-									<td class="cell100 column3">{{ kosdaq_data.1.price|intcomma }}</td>
-									<td class="cell100 column4">{{ kosdaq_data.2}} %</td>
+									<td class="cell100 column3">{{ kosdaq_data.1|intcomma }}</td>
+
+                                    {% if kosdaq_data.2 > 0.0 %}
+									<td class="cell100 column4 red">
+                                    {% elif kosdaq_data.2 < 0.0 %}
+                                    <td class="cell100 column4 blue">
+                                    {% endif %}
+                                        {{ kosdaq_data.2}} %
+                                    </td>
 								</tr>
                                 {% endfor %}
                             {% endif %}

@@ -161,6 +161,14 @@ iframe {
   margin: 3% 0;
 }
 
+.red {
+  color: red !important;
+}
+
+.blue {
+  color: blue !important;
+}
+
 .container-table100 {
   width: 90%;
   min-height: 100vh;

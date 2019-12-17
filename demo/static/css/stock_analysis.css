@@ -1,5 +1,41 @@
 body, html {
 	height: 100%;
 	font-family: sans-serif;
-    background: url(../images/banner.jpeg) repeat center center/cover;
+    background-color: #eaeff6;
+}
+
+#chart .c3-line-price {
+	stroke: #d05670;
+}
+
+#chart {
+    margin: 50px 10%;
+}
+
+#top-margin {
+  padding: 18% 0;
+}
+
+.list-title {
+  font-family: Lato-Bold;
+  font-size: 28px;
+  color: #d05670;
+  text-align: center;
+  margin: 30px 0;
+}
+
+.list-body {
+  font-family: Lato-Regular;
+  font-size: 18px;
+  text-align: center;
+  margin: 3% 0;
+}
+
+.list-body p {
+    font-weight: bold;
+}
+
+#predict-price {
+    color: dodgerblue;
+    font-size: 28px !important;
 }

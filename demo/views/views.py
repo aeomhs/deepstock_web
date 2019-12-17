@@ -32,15 +32,17 @@ def stock_list(request):
     # print(predicted_kosdaq_list)
 
     kospi_data = []
-    for i in range(len(kospi_list)):
-        kospi_data.append((kospi_list[i], predicted_kospi_list[i],
-                           round((int(predicted_kospi_list[i].price) - int(kospi_list[i].price))
+    for i in range(len(predicted_kospi_list)):
+        predict_price = custom_filter(predicted_kospi_list, lambda x: x.company.name == kospi_list[i].name)
+        kospi_data.append((kospi_list[i], predict_price,
+                           round((predict_price - int(kospi_list[i].price))
                                  / int(kospi_list[i].price) * 100.0, 2)))
 
     kosdaq_data = []
-    for i in range(len(kosdaq_list)):
-        kosdaq_data.append((kosdaq_list[i], predicted_kosdaq_list[i],
-                            round((int(predicted_kosdaq_list[i].price) - int(kosdaq_list[i].price))
+    for i in range(len(predicted_kosdaq_list)):
+        predict_price = custom_filter(predicted_kosdaq_list, lambda x: x.company.name == kosdaq_list[i].name)
+        kosdaq_data.append((kosdaq_list[i], predict_price,
+                            round((predict_price - int(kosdaq_list[i].price))
                                   / int(kosdaq_list[i].price) * 100.0, 2)))
 
     stock_list = {
@@ -52,33 +54,29 @@ def stock_list(request):
         'stock_list': stock_list})
 
 
+def custom_filter(stocks, find_filter):
+    for x in stocks:
+        if find_filter(x):
+            return int(x.price)
+    return 0
+
 # TODO 종목 분석 페이지 구현
 # 요소 : 그래프, 설명, 관련 뉴스
 # 기능 1 종목의 주가 예측 그래프 제공
 # 기능 2 종목 관련 뉴스 제공
 # 기능 3 이전 페이지 이동
-def stock_analysis(request, stock_code):
-    # stock_list 에서 선택된 종목 코드 인자값으로 받아온다. : stock_code
-    # 종목이름, 가격리스트, 예측 가격리스트, 관련 뉴스 리스트
-    stock_name = Company.objects.get(code=stock_code)
-    price_list = Price.objects.filter(company__code=stock_code)[:30] # 최대 30개
-    predicted_price_list = PredictedPrice.objects.filter(company__code=stock_code)[:30]
-    relevant_news_list = ScrapyItem.objects.filter(stock_code=stock_code)[:10] # 최대 10개의 뉴스만 가져온다.
+def stock_analysis(request, stock_code, predict_price):
+    data_set = sorted(list(Price.objects.filter(company__code=stock_code)), key=lambda x: x.date)
+    date_list = []
+    price_list = []
+    for i in range(len(data_set)):
+        date_list.append(data_set[i].date.isoformat())
+        price_list.append(data_set[i].price)
 
-    # TEST Fetch Data
-    print("주식 종목 : ", stock_name)
-    for price_date in price_list:
-        print(price_date.date, price_date.price)
-    for price_date in predicted_price_list:
-        print(price_date.date, price_date.price)
-    for news in relevant_news_list:
-        print(news.date, news.title, news.info, news.url)
+    return render(request, 'demo/stock_analysis.html',
+                  {'stock_code': stock_code,
+                   'stock_name': data_set[0].company.name,
+                   'predict_price': predict_price,
+                   'date_list': date_list,
+                   'price_list': price_list})
 
-    stock_data = {
-        'name': stock_name,
-        'price_list': price_list,
-        'predicted_price_list': predicted_price_list,
-        'relevant_news_list': relevant_news_list,
-    }
-
-    return render(request, 'demo/stock_analysis.html', {'stock_data': stock_data})
