@@ -158,6 +158,8 @@ class ScrapyItem(models.Model):
     info = models.TextField(verbose_name='사이트', default='기사 사이트', null=True)
     date = models.TextField(verbose_name='날짜', default='기사 날짜', null=True)
 
+    objects = models.Manager()
+
     class Meta:
         verbose_name = '관련 뉴스'
         verbose_name_plural = '관련 뉴스'

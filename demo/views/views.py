@@ -73,10 +73,14 @@ def stock_analysis(request, stock_code, predict_price):
         date_list.append(data_set[i].date.isoformat())
         price_list.append(data_set[i].price)
 
+    news_list = list(ScrapyItem.objects.filter(stock_code=stock_code))
+    news_list.sort(key=lambda x: x.date, reverse=True)
+
     return render(request, 'demo/stock_analysis.html',
                   {'stock_code': stock_code,
                    'stock_name': data_set[0].company.name,
                    'predict_price': predict_price,
                    'date_list': date_list,
-                   'price_list': price_list})
+                   'price_list': price_list,
+                   'news_list': news_list[:30]})
 
