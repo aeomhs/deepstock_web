@@ -49,6 +49,7 @@ class NewsbotSpider(CrawlSpider):
     def parse_item(self, response):
         # You can tweak each crawled page here
         # Don't forget to return an object.
+        stock_code = response.url.split('?')[1].split('=')[1].split('&')[0]
         titles = response.xpath('//*[@class="title"]/a/text()').extract()
         urls = response.xpath('//*[@class="title"]/a/@href').extract()
         infos = response.xpath('//*[@class="info"]/text()').extract()
@@ -56,7 +57,7 @@ class NewsbotSpider(CrawlSpider):
         
         for item in zip(titles, urls, infos, dates):
             scraped_info = {
-                'stock_code': self.stock_code,
+                'stock_code': stock_code,
                 'title': item[0].strip(),
                 'url': self.base_url + item[1].strip(),
                 'info': item[2].strip(),
