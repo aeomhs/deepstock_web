@@ -96,14 +96,12 @@ Quit the server with CONTROL-C.
 #### POST Request, Start news crawling  
 ```
 /* 종목 관련 뉴스 크롤링 */
-curl --data-urlencode "stock_code=005930" \
-     http://localhost:8000/api/crawl/
+curl --data-urlencode "stock_code=005930" http://localhost:8000/api/crawl/
 
 {"task_id": "61b6b1c81c9c11ea99039cf387aa8006", "unique_id": "ab1a0337-8838-4eb8-b4dd-0f4464d97d79", "status": "started"}
 
 /* 모든 종목 관련 뉴스 크롤링 */
-curl --data-urlencode "stock_code=all" \
-     http://localhost:8000/api/crawl/
+curl --data-urlencode "stock_code=all" http://localhost:8000/api/crawl/
 ```
 
 #### GET Request, Return news crawling data  
@@ -118,8 +116,7 @@ curl -o result.html -X GET http://localhost:8000/api/crawl?task_id=61b6b1c81c9c1
 ## Stock Data Crawling
 #### POST Request, Start Stock List crawling
 ```
-curl --data-urlencode "secure=DEEPSTOCK_SECURE" \
-    http://localhost:8000/api/stock_init/
+curl --data-urlencode "secure=DEEPSTOCK_SECURE" http://localhost:8000/api/stock_init/
 
 {"task_id": "67e615fe1c9f11eabe129cf387aa8006", "unique_id": "929c5938-dd91-4bcd-b625-22d07f8d8180", "status": "started"}
 ```
