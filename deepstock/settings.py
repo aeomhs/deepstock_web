@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # detach Secret key https://wayhome25.github.io/django/2017/07/11/django-settings-secret-key/
 # Generate from https://www.miniwebtool.com/django-secret-key-generator/
 # Ref. secrets.json
-secret_file = os.path.join(BASE_DIR, '../secrets.json')
+secret_file = os.path.join(BASE_DIR, 'secrets.json')
 with open(secret_file) as file:
     secrets = json.loads(file.read())
 
